@@ -9,6 +9,7 @@
 class map {
     private:
     std::vector<std::vector<int>> mappa;
+    int width, height;
     public:
     map(int x, int y);
     void drawmap(sf::RenderWindow &window,pxcount* pxcount, int x, int y);

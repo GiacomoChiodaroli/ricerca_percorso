@@ -7,6 +7,7 @@
 #include "pg.h"
 #include "map.h"
 #include "pxcount.h"
+#include "MapSearchNode.h"
 
 int numcellsX=20,numcellsY=20;                  //dimensioni mappa, possono essere cambiate senza problemi
 
@@ -21,10 +22,12 @@ int main() {
     pxcount px(numcellsX,numcellsY,window.getSize().x,window.getSize().y);
 
     map mappa(numcellsX,numcellsY);
+    MapSearchNode::worldMap = &mappa;
     int randX=rand() % numcellsX, randY=rand() % numcellsY;//verrà usato per decidere dove spawna il personaggio
 
     pg player(px,randX,randY);
     int mouseY=0,mouseX=0;
+    std::vector<sf::Vector2i> path;
 
     while (window.isOpen()) {
 

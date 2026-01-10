@@ -8,6 +8,8 @@ map::map(int x, int y) {
             mappa[i][j] = rand() % 5+1;
         }
     }
+    width = x;
+    height = y;
 };
 
 void map::drawmap(sf::RenderWindow &window,pxcount* pxcount, int x, int y) {
@@ -27,5 +29,14 @@ void map::drawmap(sf::RenderWindow &window,pxcount* pxcount, int x, int y) {
             square.setPosition({j * squareWidth, i * squareHeight});
             window.draw(square);
         }
+    }
+}
+
+int map::getValue(int x, int y) {
+    if (x<width && y<height && x>=0 && y>=0) {
+        return mappa[x][y];
+    }
+    else {
+        return 999;
     }
 }

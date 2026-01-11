@@ -12,6 +12,7 @@
 int numcellsX=32,numcellsY=18;                  //dimensioni mappa, possono essere cambiate senza problemi
 
 
+
 int main() {
     srand(time(0));
 

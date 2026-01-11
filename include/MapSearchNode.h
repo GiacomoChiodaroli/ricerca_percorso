@@ -23,14 +23,14 @@ public:
     }
 
 
-    bool Search(MapSearchNode nodeStart, MapSearchNode nodeEnd, std::vector<sf::Vector2i>& path, map mappa);
+    static bool Search(MapSearchNode nodeStart, MapSearchNode nodeEnd, std::vector<sf::Vector2i>& path);
     float GoalDistanceEstimate(MapSearchNode& nodeGoal);
     bool IsGoal(MapSearchNode& nodeGoal);
-    bool GetSuccessors(AStarSearch<MapSearchNode>* astarsearch, MapSearchNode* parent_node,map mappa);
+    bool GetSuccessors(AStarSearch<MapSearchNode>* astarsearch, MapSearchNode* parent_node);
     float GetCost(MapSearchNode& successor);
     bool IsSameState(MapSearchNode& rhs);
     size_t Hash();
-    void drawPath(std::vector<sf::Vector2i>& path,sf::RenderWindow &window, pxcount px);
+    static void drawPath(std::vector<sf::Vector2i>& path,sf::RenderWindow &window, pxcount px);
 
     void PrintNodeInfo();
 };

@@ -48,7 +48,7 @@ bool MapSearchNode::IsGoal(MapSearchNode& nodeGoal) {
 }
 
 bool MapSearchNode::GetSuccessors(
-    AStarSearch<MapSearchNode>* astarsearch, MapSearchNode* parent_node,map mappa) {
+    AStarSearch<MapSearchNode>* astarsearch, MapSearchNode* parent_node) {
     int parent_x = -1;
     int parent_y = -1;
 
@@ -61,22 +61,22 @@ bool MapSearchNode::GetSuccessors(
 
     // push each possible move except allowing the search to go backwards
 
-    if ((mappa.getValue(x - 1, y) < 9) && !((parent_x == x - 1) && (parent_y == y))) {
+    if ((worldMap->getValue(x - 1, y) < 9) && !((parent_x == x - 1) && (parent_y == y))) {
         NewNode = MapSearchNode(x - 1, y);
         astarsearch->AddSuccessor(NewNode);
     }
 
-    if ((mappa.getValue(x, y - 1) < 9) && !((parent_x == x) && (parent_y == y - 1))) {
+    if ((worldMap->getValue(x, y - 1) < 9) && !((parent_x == x) && (parent_y == y - 1))) {
         NewNode = MapSearchNode(x, y - 1);
         astarsearch->AddSuccessor(NewNode);
     }
 
-    if ((mappa.getValue(x + 1, y) < 9) && !((parent_x == x + 1) && (parent_y == y))) {
+    if ((worldMap->getValue(x + 1, y) < 9) && !((parent_x == x + 1) && (parent_y == y))) {
         NewNode = MapSearchNode(x + 1, y);
         astarsearch->AddSuccessor(NewNode);
     }
 
-    if ((mappa.getValue(x, y + 1) < 9) && !((parent_x == x) && (parent_y == y + 1))) {
+    if ((worldMap->getValue(x, y + 1) < 9) && !((parent_x == x) && (parent_y == y + 1))) {
         NewNode = MapSearchNode(x, y + 1);
         astarsearch->AddSuccessor(NewNode);
     }
@@ -89,8 +89,8 @@ float MapSearchNode::GetCost( MapSearchNode &successor ) {
 }
 
 
-bool MapSearchNode::Search(MapSearchNode nodeStart, MapSearchNode nodeEnd, std::vector<sf::Vector2i>& path, map mappa){
-path.clear();
+bool MapSearchNode::Search(MapSearchNode nodeStart, MapSearchNode nodeEnd, std::vector<sf::Vector2i>& path){
+    path.clear();
     AStarSearch<MapSearchNode> astarsearch;
     bool succed=false;
 
@@ -188,17 +188,12 @@ path.clear();
 };
 
 void MapSearchNode:: drawPath(std::vector<sf::Vector2i>& path,sf::RenderWindow &window, pxcount px) {
-    float r;
-    if (px.getPxHeight()<px.getPxWidth()) {
-        r=px.getPxHeight()*0.375;
-    }else {
-        r=px.getPxWidth()*0.375;
-    }
-    float offsetX=px.getPxWidth()/2-2;  // il -2 serve alltrimenti non è perfettamente centrato sul mio monitor, fare prove
-    float offsetY=px.getPxHeight()/2-2; // per vedere se viene centratro con altri valori
-    sf::CircleShape square(r, 4);
+    float l1=px.getPxHeight()*0.375,l2=px.getPxWidth()*0.375;
+    int x,y;
+    float offsetX=px.getPxWidth()/2-l1/2-3;  // il -2 serve alltrimenti non è perfettamente centrato sul mio monitor, fare prove
+    float offsetY=px.getPxHeight()/2-l2/2+4; // per vedere se viene centratro con altri valori
+    sf::RectangleShape square({l2,l1});
     square.setFillColor({200,200,200});
-    square.setRotation(sf::degrees(45));
     square.setOutlineColor(sf::Color::Black);
     square.setOutlineThickness(4.f);
     for (int i = 0; i < path.size(); i++) {

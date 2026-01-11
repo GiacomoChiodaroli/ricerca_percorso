@@ -11,10 +11,13 @@
 
 int numcellsX=20,numcellsY=20;                  //dimensioni mappa, possono essere cambiate senza problemi
 
+
 int main() {
     srand(time(0));
 
     bool canmove=false;                         //verrà usato per decidere se muovere o meno il personaggio
+    MapSearchNode nodeStart;
+    MapSearchNode nodeEnd;
 
     auto window = sf::RenderWindow( sf::VideoMode::getDesktopMode(),"mytab");
     window.setFramerateLimit(144);
@@ -28,6 +31,7 @@ int main() {
     pg player(px,randX,randY);
     int mouseY=0,mouseX=0;
     std::vector<sf::Vector2i> path;
+    sf::Vector2i pos;
 
     while (window.isOpen()) {
 
@@ -40,23 +44,38 @@ int main() {
                 window.setView(sf::View(areaVisibile));             //resize della finestra
                 px.setPx(numcellsX,numcellsY,window.getSize().x,window.getSize().y);
                 player.setOffsetRad(px);
+                player.setPixel(px);
             }
             if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>()) {
                 if (mouseButtonPressed->button == sf::Mouse::Button::Right) {
                     mouseX=floor(mouseButtonPressed->position.x/px.getPxWidth());
                     mouseY=floor(mouseButtonPressed->position.y/px.getPxHeight());
-                    std::cout << "x: " << mouseX << ", y: " << mouseY << std::endl;
-                    canmove=true;
+                    nodeEnd.x = mouseX;
+                    nodeEnd.y = mouseY;
+                    nodeStart.x=player.character.getPosition().x/px.getPxWidth();
+                    nodeStart.y=player.character.getPosition().y/px.getPxHeight();
+                    canmove = MapSearchNode::Search(nodeStart, nodeEnd, path);
                 }
             }
         }
         window.clear();
         mappa.drawmap(window,&px,numcellsX,numcellsY);
+
         if (canmove) {
-            player.move(px,mouseX,mouseY);
-            player.setPosition(px,player.character.getPosition().x,player.character.getPosition().y);
+            sf::Vector2i target = path.front();
+            player.move(px,target.x, target.y);
+            bool targetXreached=target.x*px.getPxWidth()+player.getOffsetX()==player.character.getPosition().x;
+            bool targetYreached=target.y*px.getPxHeight()+player.getOffsetY()==player.character.getPosition().y;
+            if (targetXreached && targetYreached) {
+                path.erase(path.begin());
+                player.setPosition(px,target.x,target.y);
+                if (path.empty()) {
+                    canmove = false;
+                }
+            }
         }
         window.draw(player.character);
+        MapSearchNode::drawPath(path,window,px);
         window.display();
     }
 }

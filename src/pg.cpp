@@ -26,16 +26,16 @@ void pg::setOffsetRad(pxcount px) {
     offsetX=px.getPxWidth()/2-r-2;
     offsetY=px.getPxHeight()/2-r-2;
     character.setRadius(r);
-    float pxX = x*px.getPxWidth()+offsetX;
-    float pxY = y*px.getPxHeight()+offsetY;
+    float pxX = character.getPosition().x*px.getPxWidth()+offsetX;
+    float pxY = character.getPosition().y*px.getPxHeight()+offsetY;
     character.setPosition({pxX, pxY});
 }
 
 void pg::move(pxcount px, int targetx, int targety) {
-    int charx = character.getPosition().x;
-    int chary = character.getPosition().y;
-    targetx=targetx*px.getPxWidth()+offsetX;
-    targety=targety*px.getPxHeight()+offsetY;
+    float charx = floor(character.getPosition().x);
+    float chary = floor(character.getPosition().y);
+    targetx=floor(targetx*px.getPxWidth()+offsetX);
+    targety=floor(targety*px.getPxHeight()+offsetY);
     float moveX = 0;
     float moveY = 0;
     moveX = (charx < targetx) ? 1 : (charx > targetx) ? -1 : 0;
@@ -43,10 +43,19 @@ void pg::move(pxcount px, int targetx, int targety) {
         moveY = (chary < targety) ? 1 : (chary > targety) ? -1 : 0;
     }
     character.move({moveX, moveY});
-    std::cout<<"x char: "<<character.getPosition().x<< ", y char: "<< character.getPosition().y<<std::endl;
 }
-void pg::setPosition(pxcount px, float newx, float newy) {
-    x=newx/px.getPxWidth();
-    y=newy/px.getPxHeight();
+float pg::getOffsetX() {
+    return offsetX;
 }
-
+float pg::getOffsetY() {
+    return offsetY;
+}
+void pg::setPosition(pxcount px, int posx, int posy) {
+    x=posx;
+    y=posy;
+}
+void pg::setPixel(pxcount px) {
+    float pxX = x*px.getPxWidth()+offsetX;
+    float pxY = y*px.getPxHeight()+offsetY;
+    character.setPosition({pxX, pxY});
+}

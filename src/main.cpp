@@ -9,7 +9,7 @@
 #include "pxcount.h"
 #include "MapSearchNode.h"
 
-int numcellsX=20,numcellsY=20;                  //dimensioni mappa, possono essere cambiate senza problemi
+int numcellsX=32,numcellsY=18;                  //dimensioni mappa, possono essere cambiate senza problemi
 
 
 int main() {
@@ -26,9 +26,9 @@ int main() {
 
     map mappa(numcellsX,numcellsY);
     MapSearchNode::worldMap = &mappa;
-    int randX=rand() % numcellsX, randY=rand() % numcellsY;//verrà usato per decidere dove spawna il personaggio
+   // int randX=rand() % numcellsX, randY=rand() % numcellsY;//verrà usato per decidere dove spawna il personaggio
 
-    pg player(px,randX,randY);
+    pg player(px,0,0);
     int mouseY=0,mouseX=0;
     std::vector<sf::Vector2i> path;
     sf::Vector2i pos;
@@ -64,8 +64,8 @@ int main() {
         if (canmove) {
             sf::Vector2i target = path.front();
             player.move(px,target.x, target.y);
-            bool targetXreached=target.x*px.getPxWidth()+player.getOffsetX()==player.character.getPosition().x;
-            bool targetYreached=target.y*px.getPxHeight()+player.getOffsetY()==player.character.getPosition().y;
+            bool targetXreached=floor(target.x*px.getPxWidth()+player.getOffsetX())==floor(player.character.getPosition().x);
+            bool targetYreached=floor(target.y*px.getPxHeight()+player.getOffsetY())==floor(player.character.getPosition().y);
             if (targetXreached && targetYreached) {
                 path.erase(path.begin());
                 player.setPosition(px,target.x,target.y);

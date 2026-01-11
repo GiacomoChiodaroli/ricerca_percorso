@@ -53,9 +53,10 @@ int main() {
                     mouseY=floor(mouseButtonPressed->position.y/px.getPxHeight());
                     nodeEnd.x = mouseX;
                     nodeEnd.y = mouseY;
-                    nodeStart.x=player.character.getPosition().x/px.getPxWidth();
-                    nodeStart.y=player.character.getPosition().y/px.getPxHeight();
+                    nodeStart.x=floor(player.character.getPosition().x/px.getPxWidth());
+                    nodeStart.y=floor(player.character.getPosition().y/px.getPxHeight());
                     canmove = MapSearchNode::Search(nodeStart, nodeEnd, path);
+                    break;
                 }
             }
         }

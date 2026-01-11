@@ -1,11 +1,13 @@
 #include "map.h"
 
+#include <iostream>
+
 map::map(int x, int y) {
     srand(time(0));
     mappa.resize(y, std::vector<int>(x));
     for (int i = 0; i < y; i++) {
         for (int j = 0; j < x; j++) {
-            mappa[i][j] = rand() % 5+1;
+            mappa[i][j] = (rand() % 5)+1;
         }
     }
     width = x;
@@ -32,7 +34,7 @@ void map::drawmap(sf::RenderWindow &window,pxcount* pxcount, int x, int y) {
     }
 }
 
-int map::getValue(int x, int y) {
+int map::getValue(int y, int x) {
     if (x<width && y<height && x>=0 && y>=0) {
         return mappa[x][y];
     }

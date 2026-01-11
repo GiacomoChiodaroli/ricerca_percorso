@@ -157,7 +157,9 @@ bool MapSearchNode::Search(MapSearchNode nodeStart, MapSearchNode nodeEnd, std::
 
             node->PrintNodeInfo();
             for (;;) {
+
                 node = astarsearch.GetSolutionNext();
+
                 if (!node) {
                     break;
                 }

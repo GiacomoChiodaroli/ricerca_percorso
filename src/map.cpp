@@ -17,7 +17,10 @@ map::map(int x, int y) {
             mappa[a][b] = 999;
         }
     }
-
+    mappa[0][0]=1;              //serve per i test
+    mappa[0][1]=1;
+    mappa[1][1]=1;
+    mappa[1][0]=999;
     width = x;
     height = y;
 };

@@ -9,7 +9,7 @@
 #include "pxcount.h"
 #include "MapSearchNode.h"
 
-int numcellsX=32,numcellsY=18;                  //dimensioni mappa, possono essere cambiate senza problemi
+int numcellsX=48,numcellsY=27;                  //dimensioni mappa, possono essere cambiate senza problemi
 
 
 
@@ -27,9 +27,12 @@ int main() {
 
     map mappa(numcellsX,numcellsY);
     MapSearchNode::worldMap = &mappa;
-   // int randX=rand() % numcellsX, randY=rand() % numcellsY;//verrà usato per decidere dove spawna il personaggio
-
-    pg player(px,0,0);
+    int randX=rand() % numcellsX, randY=rand() % numcellsY;//verrà usato per decidere dove spawna il personaggio
+    while (mappa.getValue(randX,randY)==999) {
+        randX=rand() % 32;
+        randY=rand() % 18;
+    }
+    pg player(px,randX,randY);
     int mouseY=0,mouseX=0;
     std::vector<sf::Vector2i> path;
     sf::Vector2i pos;

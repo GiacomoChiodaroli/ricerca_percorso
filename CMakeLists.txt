@@ -17,7 +17,8 @@ include_directories(include)
 add_executable(main src/main.cpp
                     src/map.cpp
                     src/pg.cpp
-                    src/pxcount.cpp)
+                    src/pxcount.cpp
+                    src/MapSearchNode.cpp)
 
 
 
